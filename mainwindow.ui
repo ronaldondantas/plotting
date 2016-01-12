@@ -15,8 +15,14 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
+    <item row="1" column="0">
+     <widget class="QCustomPlot" name="cp2" native="true"/>
+    </item>
     <item row="0" column="0">
      <widget class="QCustomPlot" name="customPlot" native="true"/>
+    </item>
+    <item row="2" column="0">
+     <widget class="QCustomPlot" name="cp3" native="true"/>
     </item>
    </layout>
   </widget>

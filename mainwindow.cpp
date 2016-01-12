@@ -1,43 +1,49 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "graph.h"
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->cp2->setVisible(false);
+    ui->cp3->setVisible(false);
 
-    int maxTime = 0;
-    int numberValues = 5;
-    QVector<double> x(numberValues), y(numberValues); // 0..100
-    QList<QPair<double, double> > listPoints;
+    Point pointA;
+    pointA.setX(10);
+    pointA.setY(90);
 
-    QPair<double, double> pairPoints;
-    int i=0;
-    while(i<5) {
-        pairPoints.first = 15;
-        pairPoints.second = 30;
-        i++;
-    }
+    Point pointB;
+    pointB.setX(20);
+    pointB.setY(180);
 
-    listPoints.append(pairPoints);
+    Point pointC;
+    pointC.setX(30);
+    pointC.setY(-90);
 
-    for (int i=0; i<listPoints.size(); ++i)
-    {
-      x[i] = listPoints.at(i).first;
-      y[i] = listPoints.at(i).second;
+    Point pointD;
+    pointD.setX(0);
+    pointD.setY(-180);
 
-      if (y[i] > maxTime) maxTime = y[i];
-    }
+    QVector<Point> points;
+    points.append(pointA);
+    points.append(pointB);
+    points.append(pointC);
+    points.append(pointD);
+
+    Graph graph(points, "Gráfico 1");
 
     ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setData(x, y);
+    ui->customPlot->graph(0)->setData(graph.getListX(), graph.getListY());
+    ui->customPlot->graph(0)->setName(graph.name());
 
-    ui->customPlot->xAxis->setLabel("y (angulação)");
-    ui->customPlot->yAxis->setLabel("x (tempo em segundos)");
+    ui->customPlot->xAxis->setLabel("x (tempo em segundos)");
+    ui->customPlot->yAxis->setLabel("y (angulação)");
 
-    ui->customPlot->xAxis->setRange(-180, 180);
-    ui->customPlot->yAxis->setRange(0, maxTime);
+    ui->customPlot->xAxis->setRange(0, graph.getMaxX());
+    ui->customPlot->yAxis->setRange(-180, 180);
     ui->customPlot->replot();
 }
 
