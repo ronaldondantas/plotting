@@ -8,6 +8,7 @@
 class Graph : public QObject
 {
     Q_OBJECT
+
 public:
     explicit Graph(QVector<Point> points, QString name, QObject *parent = 0);
 
