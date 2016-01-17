@@ -2,8 +2,9 @@
 
 Graph::Graph(QVector<Point> points, QString name, QObject *parent)
     : QObject(parent),
+      m_name(name),
       m_points(points),
-      m_name(name)
+      m_maxX(0)
 {
     QVector<double> listX, listY;
     foreach (Point point, m_points) {
@@ -60,10 +61,10 @@ void Graph::setListY(const QVector<double> &value)
 
 double Graph::getMaxX() const
 {
-    return maxX;
+    return m_maxX;
 }
 
 void Graph::setMaxX(const double &value)
 {
-    maxX = value;
+    m_maxX = value;
 }

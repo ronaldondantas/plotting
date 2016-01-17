@@ -19,10 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
      * INÍCIO
      */
 
-    Graph *graphA = getGraph("Gráfico 1");
-    Graph *graphB = getGraph("Gráfico 2");
-    Graph *graphC = getGraph("Gráfico 3");
-    Graph *graphD = getGraph("Gráfico 4");
+    Graph *graphA = getGraph("Ombro");
+    Graph *graphB = getGraph("Joelho");
+    Graph *graphC = getGraph("Tórax");
+    Graph *graphD = getGraph("Tornozelo");
     Graph *graphE = getGraph("Gráfico 5");
     Graph *graphF = getGraph("Gráfico 6");
     Graph *graphG = getGraph("Gráfico 7");
@@ -65,11 +65,19 @@ void MainWindow::plotGraphs(QList<Graph *> listGraphs)
         l_customPlot->graph(0)->setData(graph->getListX(), graph->getListY());
         l_customPlot->graph(0)->setName(graph->name());
 
-        l_customPlot->xAxis->setLabel("x (tempo em segundos)");
-        l_customPlot->yAxis->setLabel("y (angulação)");
+        l_customPlot->graph(0)->setBrush(QBrush(QColor(204,243,255)));
+        l_customPlot->graph(0)->setPen(QPen(Qt::blue));
+        l_customPlot->graph(0)->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssDisc, 5));
 
+        l_customPlot->xAxis->setLabel(graph->name());
         l_customPlot->xAxis->setRange(0, graph->getMaxX());
+        l_customPlot->xAxis->setDateTimeFormat("hh:mm");
+        l_customPlot->xAxis->setAutoTickStep(false);
+        l_customPlot->xAxis->setTickStep(1);
+
         l_customPlot->yAxis->setRange(-180, 180);
+        l_customPlot->yAxis->setAutoTickStep(false);
+        l_customPlot->yAxis->setTickStep(90);
         l_customPlot->replot();
     }
 }
@@ -80,19 +88,19 @@ Graph* MainWindow::getGraph(QString a_nome)
     // NOTE: Criação de pontos fake para exemplificar a criação de um gráfico.
 
     Point pointA;
-    pointA.setX(qrand() % 577);
+    pointA.setX(qrand() % 30 + 1);
     pointA.setY(qrand() % 181);
 
     Point pointB;
-    pointB.setX(qrand() % 577);
+    pointB.setX(qrand() % 30 + 1);
     pointB.setY(qrand() % 181);
 
     Point pointC;
-    pointC.setX(qrand() % 577);
+    pointC.setX(qrand() % 30 + 1);
     pointC.setY(qrand() % 181);
 
     Point pointD;
-    pointD.setX(qrand() % 577);
+    pointD.setX(qrand() % 30 + 1);
     pointD.setY(qrand() % 181);
 
     QVector<Point> points;

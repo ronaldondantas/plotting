@@ -35,7 +35,7 @@ private:
     QVector<double> listX;
     QVector<double> listY;
 
-    double maxX;
+    double m_maxX;
 };
 
 #endif // GRAPH_H
