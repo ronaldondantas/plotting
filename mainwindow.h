@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "graph.h"
+#include "qcustomplot.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,8 +21,12 @@ public:
 
     void plotGraphs(QList<Graph *> listGraphs);
 
+public slots:
+    void plotLine(QString graphName, int linePosition);
+
 private:
     Ui::MainWindow *ui;
+    QList<QCustomPlot *> listCustomPlots;
 };
 
 #endif // MAINWINDOW_H

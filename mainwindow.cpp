@@ -45,6 +45,8 @@ MainWindow::MainWindow(QWidget *parent) :
      * deseja que sejam plotados. (QList<Graph>)
      */
     plotGraphs(listGraphs);
+
+    plotLine("Joelho", 6);
 }
 
 MainWindow::~MainWindow()
@@ -79,6 +81,28 @@ void MainWindow::plotGraphs(QList<Graph *> listGraphs)
         l_customPlot->yAxis->setAutoTickStep(false);
         l_customPlot->yAxis->setTickStep(90);
         l_customPlot->replot();
+
+        listCustomPlots.append(l_customPlot);
+    }
+}
+
+void MainWindow::plotLine(QString graphName, int linePosition)
+{
+    foreach (QCustomPlot *customPlot, listCustomPlots) {
+        if (customPlot->graph(0)->name().compare(graphName) == 0) {
+            QCPItemLine *l_itemLine = new QCPItemLine(customPlot);
+            QPen pen(Qt::red);
+            pen.setWidth(4);
+            l_itemLine->setPen(pen);
+            l_itemLine->setSelectable(true);
+
+            customPlot->addItem(l_itemLine);
+
+            l_itemLine->start->setCoords(linePosition, -180);
+            l_itemLine->end->setCoords(linePosition, +180);
+
+            customPlot->replot();
+        }
     }
 }
 
