@@ -46,9 +46,22 @@ MainWindow::MainWindow(QWidget *parent) :
      */
     plotGraphs(listGraphs);
 
-    plotLineInGraph("Joelho", 6);
-    qDebug() << getLinePositionByGraph("Ombro");
-    qDebug() << getLinePositionByGraph("Joelho");
+    // Plotar marcador em um gráfico dando a posição e, caso queira, o nome do gráfico
+    // Senão tiver o nome do gráfico, a linha é plotada em todos os gráficos
+
+    plotLineInGraph(6, "Joelho");
+//    plotLineInGraph(6);
+
+    // Retorna a linha da posição do gráfico passado por parâmetro
+    // Senão tiver o nome do gráfico, retorna a linha do primeiro gráfico plotado em tela
+
+    qDebug() << getLinePosition("Ombro");
+    qDebug() << getLinePosition("Joelho");
+
+    // Muda a visibilidade do eixo X do gráfico passado por parâmetro.
+    // Caso não seja passado, todos os gráficos sofrem a mudança.
+    setAxisXVisible(false);
+//    setAxisXVisible(false, "Joelho");
 }
 
 MainWindow::~MainWindow()
@@ -90,15 +103,31 @@ void MainWindow::plotGraphs(QList<Graph *> listGraphs)
     }
 }
 
-int MainWindow::getLinePositionByGraph(QString graphName)
+int MainWindow::getLinePosition(QString graphName)
 {
-    return graphNamePosition.value(graphName);
+    int position = -1;
+    if (graphName.isEmpty()) {
+        position = graphNamePosition.value(listCustomPlots.at(0)->graph(0)->name());
+    } else {
+        position = graphNamePosition.value(graphName);
+    }
+    return position;
 }
 
-void MainWindow::plotLineInGraph(QString graphName, int linePosition)
+void MainWindow::setAxisXVisible(bool visible, QString graphName)
 {
     foreach (QCustomPlot *customPlot, listCustomPlots) {
-        if (customPlot->graph(0)->name().compare(graphName) == 0) {
+        if (graphName.isEmpty() || customPlot->graph(0)->name().compare(graphName) == 0) {
+            customPlot->xAxis->setVisible(visible);
+            customPlot->replot();
+        }
+    }
+}
+
+void MainWindow::plotLineInGraph(int linePosition, QString graphName)
+{
+    foreach (QCustomPlot *customPlot, listCustomPlots) {
+        if (graphName.isEmpty() || customPlot->graph(0)->name().compare(graphName) == 0) {
             QCPItemLine *l_itemLine = new QCPItemLine(customPlot);
             QPen pen(Qt::red);
             pen.setWidth(4);

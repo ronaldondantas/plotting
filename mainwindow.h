@@ -21,10 +21,11 @@ public:
 
     void plotGraphs(QList<Graph *> listGraphs);
 
-    int getLinePositionByGraph(QString graphName);
+    int getLinePosition(QString graphName = "");
+    void setAxisXVisible(bool visible, QString graphName = "");
 
 public slots:
-    void plotLineInGraph(QString graphName, int linePosition);
+    void plotLineInGraph(int linePosition, QString graphName = "");
 
 private:
     Ui::MainWindow *ui;
