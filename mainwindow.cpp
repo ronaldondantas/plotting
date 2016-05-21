@@ -46,7 +46,9 @@ MainWindow::MainWindow(QWidget *parent) :
      */
     plotGraphs(listGraphs);
 
-    plotLine("Joelho", 6);
+    plotLineInGraph("Joelho", 6);
+    qDebug() << getLinePositionByGraph("Ombro");
+    qDebug() << getLinePositionByGraph("Joelho");
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +59,8 @@ MainWindow::~MainWindow()
 void MainWindow::plotGraphs(QList<Graph *> listGraphs)
 {
     foreach (Graph *graph, listGraphs) {
+        graphNamePosition.insert(graph->name(), 0);
+
         QCustomPlot *l_customPlot = new QCustomPlot();
         l_customPlot->setMinimumHeight(200);
         l_customPlot->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -86,7 +90,12 @@ void MainWindow::plotGraphs(QList<Graph *> listGraphs)
     }
 }
 
-void MainWindow::plotLine(QString graphName, int linePosition)
+int MainWindow::getLinePositionByGraph(QString graphName)
+{
+    return graphNamePosition.value(graphName);
+}
+
+void MainWindow::plotLineInGraph(QString graphName, int linePosition)
 {
     foreach (QCustomPlot *customPlot, listCustomPlots) {
         if (customPlot->graph(0)->name().compare(graphName) == 0) {
@@ -100,6 +109,8 @@ void MainWindow::plotLine(QString graphName, int linePosition)
 
             l_itemLine->start->setCoords(linePosition, -180);
             l_itemLine->end->setCoords(linePosition, +180);
+
+            graphNamePosition.insert(customPlot->graph(0)->name(), linePosition);
 
             customPlot->replot();
         }

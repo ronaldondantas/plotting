@@ -21,12 +21,15 @@ public:
 
     void plotGraphs(QList<Graph *> listGraphs);
 
+    int getLinePositionByGraph(QString graphName);
+
 public slots:
-    void plotLine(QString graphName, int linePosition);
+    void plotLineInGraph(QString graphName, int linePosition);
 
 private:
     Ui::MainWindow *ui;
     QList<QCustomPlot *> listCustomPlots;
+    QHash<QString, int> graphNamePosition;
 };
 
 #endif // MAINWINDOW_H
